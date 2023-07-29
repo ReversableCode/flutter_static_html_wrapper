@@ -1,3 +1,4 @@
+// @dart=2.7
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -34,9 +35,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   WebViewController controller;
-  bool isListening = false;
   String address;
   int port;
+
+  bool isListening = false;
 
   @override
   initState() {
@@ -50,12 +52,12 @@ class _MyHomePageState extends State<MyHomePage> {
       assetsBasePath: 'assets',
     );
 
-    final address = await server.serve();
+    final serverAddress = await server.serve().then((value) => value.address);
 
     setState(() {
-      this.address = address.address;
-      port = server.boundPort;
-      isListening = true;
+      this.address = serverAddress;
+      this.port = server.boundPort;
+      this.isListening = true;
     });
   }
 
